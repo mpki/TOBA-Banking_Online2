@@ -28,6 +28,16 @@
         <url-pattern>/NewCustomer</url-pattern>
     </servlet-mapping>
     
+        <servlet>
+        <servlet-name>ResetPasswordServlet</servlet-name>
+        <servlet-class>toba.ResetPasswordServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>ResetPasswordServlet</servlet-name>
+        <url-pattern>/ResetPass</url-pattern>
+    </servlet-mapping>
+    
     
     <servlet>
         <servlet-name>TransactionServlet</servlet-name>

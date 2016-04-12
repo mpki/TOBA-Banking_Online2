@@ -13,6 +13,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import toba.User;
 
 /**
  *
@@ -40,6 +42,7 @@ public class NewCustomerServlet extends HttpServlet {
             String Phone = request.getParameter("Phone");
             String Address = request.getParameter("Address");
             String City = request.getParameter("City");
+            String State = request.getParameter("State");
             String Zipcode = request.getParameter("Zipcode");
             String Email = request.getParameter("Email");
             
@@ -52,8 +55,15 @@ public class NewCustomerServlet extends HttpServlet {
             }
             else
             {
-                response.setStatus(response.SC_MOVED_TEMPORARILY);
-                response.setHeader("Location", "Success.html");  
+                String Username = Lastname + Zipcode;
+                String Password = "welcome1";
+                User customer = (User) request.getSession().getAttribute("User");
+                if(customer == null)
+                {
+                    customer = new User(Firstname, Lastname, Phone, Address, City, State, Zipcode, Email, Username, Password);
+                }
+                request.getSession().setAttribute("User", customer);
+                request.getRequestDispatcher("Success.jsp").forward(request, response); 
             }
         }
     }

@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -35,15 +36,28 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
             String user = request.getParameter("Username");
             String pass = request.getParameter("Password");
-            if(user.equals("mailto:jsmith@toba.com")&&pass.equals("letmein"))
+            if(user.equals("jsmith@toba.com")&&pass.equals("letmein"))
             {
             response.setStatus(response.SC_MOVED_TEMPORARILY);
-            response.setHeader("Location", "Account_activity.html"); 
+            response.setHeader("Location", "Account_activity.jsp"); 
+            }
+            else if(null != request.getSession(false).getAttribute("User"))
+            {   User userObj = (User) request.getSession().getAttribute("User");
+                if(user.equals(userObj.Username)&&pass.equals(userObj.Password))
+                {
+                    response.setStatus(response.SC_MOVED_TEMPORARILY);
+                    response.setHeader("Location", "Account_activity.jsp"); 
+                }
+                else
+                {
+                    response.setStatus(response.SC_MOVED_TEMPORARILY);
+                    response.setHeader("Location", "Login_failure.jsp");  
+                }
             }
             else
             {
             response.setStatus(response.SC_MOVED_TEMPORARILY);
-            response.setHeader("Location", "Login_failure.html");
+            response.setHeader("Location", "Login_failure.jsp");
             }
 
     }   // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
